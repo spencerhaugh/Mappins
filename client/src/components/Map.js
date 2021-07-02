@@ -60,7 +60,7 @@ const Map = ({ classes }) => {
           offsetLeft={-19}
           offsetTop={-37}
         >
-          <PinIcon size={40} color={'red'} />
+          <PinIcon size={40} color={'purple'} />
         </Marker>
       )}
 
