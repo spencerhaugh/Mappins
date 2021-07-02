@@ -25,8 +25,9 @@ const Login = ({ classes }) => {
       const data = await client.request(ME_QUERY); // ME_QUERY imported from gql queries file
       // console.log({data});
 
-      // Update state with current user
+      // Update state with current user, and add isAuth: true
       dispatch({ type: "LOGIN_USER", payload: data.me });
+      dispatch({ type: "IS_LOGGED_IN", payload: googleUser.isSignedIn() }); // could pass in 'true', but googleUser method isSignedIn is more reliable
     } catch (err) {
       onFailure(err)
     }
