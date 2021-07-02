@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ReactMapGL, { NavigationControl, Marker } from 'react-map-gl';
 import { withStyles } from "@material-ui/core/styles";
 import PinIcon from "./PinIcon";
+import Context from "../context";
 // import Button from "@material-ui/core/Button";
 // import Typography from "@material-ui/core/Typography";
 // import DeleteIcon from "@material-ui/icons/DeleteTwoTone";
@@ -13,7 +14,7 @@ const initialViewport = {
 }
 
 const Map = ({ classes }) => {
-  
+  const { state, dispatch } = useContext(Context);
   const [viewport, setViewport] = useState(initialViewport);
   const [userPosition, setUserPostion] = useState(null);
 
@@ -23,6 +24,7 @@ const Map = ({ classes }) => {
     getUserPosition();
   }, []);
 
+  // Get & set user location based on device
   const getUserPosition = () => {
     console.log("getting user position...")
     // get user position from window
@@ -37,6 +39,18 @@ const Map = ({ classes }) => {
     }
   };
 
+  // Add pins to map
+  const handleMapClick = (evt) => {
+    // click event data contains lnglat array w/ longitude and latitude, and with mouse button was clicked
+    const { lngLat, leftButton } = evt;
+    if (!leftButton) return; // only look for left mouse clicks
+    if (!state.draft) {
+      dispatch({ type: "CREATE_DRAFT" }); // if no draft in state, create one
+    }
+    const [longitude, latitude] = lngLat; // pull coordinates from the lngLat info from event
+    dispatch({ type: "UPDATE_DRAFT_LOCATION", payload: { longitude, latitude } }); // update draft location in state
+  };
+
   return (
     <div className={classes.root}>
       <ReactMapGL
@@ -45,6 +59,7 @@ const Map = ({ classes }) => {
         mapStyle="mapbox://styles/mapbox/streets-v9"
         mapboxApiAccessToken="pk.eyJ1Ijoic3BlbmNlcmhhdWdoIiwiYSI6ImNrcWw4cnVuMjAybm0ybnE0dGR1dnd2eXAifQ.00jDcQastThwnM6QKzy7OQ"
         onViewportChange={newViewport => setViewport(newViewport)}
+        onClick={handleMapClick}
         {...viewport}
       >
         {/* Navigation Control (zoom in/out buttons) */}
@@ -62,6 +77,17 @@ const Map = ({ classes }) => {
         >
           <PinIcon size={40} color={'#ba68c8'} />
         </Marker>
+      )}
+      {/* Draft Pin */}
+      {state.draft && (
+        <Marker
+        latitude={state.draft.latitude}
+        longitude={state.draft.longitude}
+        offsetLeft={-19}
+        offsetTop={-37}
+      >
+        <PinIcon size={40} color={'hotpink'} />
+      </Marker>
       )}
 
       </ReactMapGL>
