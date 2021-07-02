@@ -55,6 +55,7 @@ const Login = ({ classes }) => {
         onFailure={onFailure}
         isSignedIn={true} // keeps user logged in
         theme='dark'
+        buttonText='Login with Google'
       />
     </div>
     )
