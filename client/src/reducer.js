@@ -24,6 +24,11 @@ export default function reducer(state, action) {
                     longitude: 0
                 }
             }
+        case "DELETE_DRAFT":
+            return {
+                ...state,
+                draft: null
+            }
         case "UPDATE_DRAFT_LOCATION": 
             return {
                 ...state,
