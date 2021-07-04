@@ -51,11 +51,12 @@ const handleSubmit = async (e) => {
       headers: { authorization: idToken }
     });
     
-      // Set variables to pass to GraphQL via a client request:
+      // Gather and set variables to pass to GraphQL via a client request:
       // Coords from the pin draft data in context
     const { latitude, longitude } = state.draft; 
       // Get Cloudinary url for image upload
     const url = await handleImageUpload();
+
     const variables = { title, image: url, content, latitude, longitude }
     
       // Send data to GraphQL to create data mutation (ie add item)
