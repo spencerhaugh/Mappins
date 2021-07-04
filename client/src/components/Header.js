@@ -4,7 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import MapIcon from "@material-ui/icons/Map";
 import Typography from "@material-ui/core/Typography";
-import { Divider } from "@material-ui/core";
+// import { Divider } from "@material-ui/core";
 
 import Context from '../context';
 import Signout from "./Auth/Signout";
