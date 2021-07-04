@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { GraphQLClient } from 'graphql-request';
 import axios from 'axios';
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -9,13 +10,15 @@ import LandscapeIcon from "@material-ui/icons/LandscapeOutlined";
 import ClearIcon from "@material-ui/icons/Clear";
 import SaveIcon from "@material-ui/icons/SaveTwoTone";
 import Context from "../../context";
+import { CREATE_PIN_MUTATION } from "../../graphql/mutations";
 
 const CreatePin = ({ classes }) => {
-  const { dispatch } = useContext(Context);
+  const { state, dispatch } = useContext(Context);
   // Component state
   const [title, setTitle] = useState('');
   const [image, setImage] = useState('');
   const [content, setContent] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
 const handleDeleteDraft = () => {
   setTitle('');
@@ -31,14 +34,42 @@ const handleImageUpload = async () => {
   data.append("cloud_name", "shimages");
 
   const res = await axios.post("https://api.cloudinary.com/v1_1/shimages/image/upload", data);
-
+  console.log(res.data.url)
   return res.data.url;
 };
 
 const handleSubmit = async (e) => {
-  e.preventDefault();
-  const url = await handleImageUpload();
-  console.log({ title, content, url, image })
+  try {
+    e.preventDefault();
+    setSubmitting(true);
+    
+      // Get user Auth Token
+    const idToken = window.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
+    
+      // Create new GQL Client with token
+    const client = new GraphQLClient('http://localhost:4000/graphql', {
+      headers: { authorization: idToken }
+    });
+    
+      // Set variables to pass to GraphQL via a client request:
+      // Coords from the pin draft data in context
+    const { latitude, longitude } = state.draft; 
+      // Get Cloudinary url for image upload
+    const url = await handleImageUpload();
+    const variables = { title, image: url, content, latitude, longitude }
+    
+      // Send data to GraphQL to create data mutation (ie add item)
+    const data = await client.request(CREATE_PIN_MUTATION, variables);
+    const { createPin } = data; // Destructure createPin from data received by client request
+    
+    
+    console.log("Pin created: ", { createPin });
+
+    handleDeleteDraft(); // Clear form and draft pin coords
+  } catch(err) {
+    setSubmitting(false);
+    console.error("Error creating pin ", err);
+  }
 };
 
   return (
@@ -105,7 +136,7 @@ const handleSubmit = async (e) => {
           className={classes.button}
           variant='contained'
           color='secondary'
-          disabled={!title.trim() || !content.trim() || !image }
+          disabled={!title.trim() || !content.trim() || !image || submitting }
           onClick={handleSubmit}
         >
           Submit
