@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import ReactMapGL, { NavigationControl, Marker } from 'react-map-gl';
 import { withStyles } from "@material-ui/core/styles";
 import PinIcon from "./PinIcon";
+import Blog from './Blog';
 import Context from "../context";
 // import Button from "@material-ui/core/Button";
 // import Typography from "@material-ui/core/Typography";
@@ -20,18 +21,15 @@ const Map = ({ classes }) => {
 
   // on mount run get user position
   useEffect(() => {
-    console.log("using effect...")
     getUserPosition();
   }, []);
 
   // Get & set user location based on device
   const getUserPosition = () => {
-    console.log("getting user position...")
     // get user position from window
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         const { latitude, longitude } = position.coords;
-        console.log("Position fund: ", longitude, latitude)
         // set viewport pos and user pos with latitude and longitude from navigator coords
         setViewport({...viewport, latitude, longitude});
         setUserPostion({ latitude, longitude });
@@ -92,6 +90,8 @@ const Map = ({ classes }) => {
 
       </ReactMapGL>
 
+      {/* Blog Area to add dropped pin content */}
+      <Blog />
     </div>
   )
 };

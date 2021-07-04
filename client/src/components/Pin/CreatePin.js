@@ -1,15 +1,95 @@
-import React from "react";
+import React, { useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
-// import TextField from "@material-ui/core/TextField";
-// import Typography from "@material-ui/core/Typography";
-// import Button from "@material-ui/core/Button";
-// import AddAPhotoIcon from "@material-ui/icons/AddAPhotoTwoTone";
-// import LandscapeIcon from "@material-ui/icons/LandscapeOutlined";
-// import ClearIcon from "@material-ui/icons/Clear";
-// import SaveIcon from "@material-ui/icons/SaveTwoTone";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import AddAPhotoIcon from "@material-ui/icons/AddAPhotoTwoTone";
+import LandscapeIcon from "@material-ui/icons/LandscapeOutlined";
+import ClearIcon from "@material-ui/icons/Clear";
+import SaveIcon from "@material-ui/icons/SaveTwoTone";
 
 const CreatePin = ({ classes }) => {
-  return <div>CreatePin</div>;
+  // Component state
+  const [title, setTitle] = useState('');
+  const [image, setImage] = useState('');
+  const [content, setContent] = useState('');
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+  console.log({ title, content, image })
+}
+
+  return (
+    <form className={classes.form}>
+      <Typography
+        className={classes.alignCenter}
+        component='h2'
+        variant='h4'
+        color='secondary'
+      >
+        <LandscapeIcon className={classes.iconLarge} />
+        Pin Location
+      </Typography>
+      <div>
+        <TextField 
+          name='title'
+          label='Title'
+          placeholder='Add a title...'
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <input
+          accept='image/*'
+          id='image'
+          type='file'
+          className={classes.input}
+          onChange={(e) => setImage(e.target.files[0])}
+        />
+        <label htmlFor='image'>
+          <Button
+            component='span'
+            size='small'
+            className={classes.button}
+          >
+            <AddAPhotoIcon />
+          </Button>
+        </label>
+      </div>
+      <div className={classes.contentField}>
+        <TextField
+          name='content'
+          label='Pin Description'
+          placeholder="Let us know what's interesting here!"
+          multiline
+          rows='6'
+          margin='normal'
+          fullWidth
+          variant='outlined'
+          onChange={(e) => setContent(e.target.value)}
+        />
+      </div>
+      <div>
+        <Button
+          className={classes.button}
+          variant='contained'
+          color='primary'
+        >
+          <ClearIcon className={classes.leftIcon} />
+          Discard
+        </Button>
+        <Button
+          type='submit'
+          className={classes.button}
+          variant='contained'
+          color='secondary'
+          disabled={!title.trim() || !content.trim() || !image }
+          onClick={handleSubmit}
+        >
+          Submit
+          <SaveIcon className={classes.righttIcon} />
+        </Button>
+      </div>
+    </form>
+  )
 };
 
 const styles = theme => ({
