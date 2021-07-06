@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import ReactMapGL, { NavigationControl, Marker } from 'react-map-gl';
 import { withStyles } from "@material-ui/core/styles";
+import { useClient } from "../client";
+import { GET_PINS_QUERY } from "../graphql/queries";
 import PinIcon from "./PinIcon";
 import Blog from './Blog';
 import Context from "../context";
@@ -15,16 +17,25 @@ const initialViewport = {
 }
 
 const Map = ({ classes }) => {
+  
+  const client = useClient();
   const { state, dispatch } = useContext(Context);
+  
+  // on mount get any existing pins
+  useEffect(() => {
+    getPins();
+  }, []);
+  
   const [viewport, setViewport] = useState(initialViewport);
   const [userPosition, setUserPostion] = useState(null);
-
+  
   // on mount run get user position
   useEffect(() => {
     getUserPosition();
   }, []);
 
-  // Get & set user location based on device
+
+  // Function: Get & set user location based on device
   const getUserPosition = () => {
     // get user position from window
     if ('geolocation' in navigator) {
@@ -35,6 +46,12 @@ const Map = ({ classes }) => {
         setUserPostion({ latitude, longitude });
       });
     }
+  };
+
+  // Function: Get any stored pins
+  const getPins = async () => {
+    const { getPins } = await client.request(GET_PINS_QUERY);
+    dispatch({ type: "GET_PINS", payload: getPins });
   };
 
   // Add pins to map
@@ -84,9 +101,22 @@ const Map = ({ classes }) => {
         offsetLeft={-19}
         offsetTop={-37}
       >
-        <PinIcon size={40} color={'hotpink'} />
+        <PinIcon size={30} color={'hotpink'} />
       </Marker>
       )}
+
+        {/* Created Pins */}
+        {state.pins.map(pin => (
+          <Marker
+            key={pin._id}
+            latitude={pin.latitude}
+            longitude={pin.longitude}
+            offsetLeft={-19}
+            offsetTop={-37}
+          >
+            <PinIcon size={30} color={'orange'} />
+          </Marker>
+        ))}
 
       </ReactMapGL>
 

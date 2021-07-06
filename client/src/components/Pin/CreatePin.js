@@ -10,7 +10,6 @@ import ClearIcon from "@material-ui/icons/Clear";
 import SaveIcon from "@material-ui/icons/SaveTwoTone";
 import Context from "../../context";
 import { CREATE_PIN_MUTATION } from "../../graphql/mutations";
-import { BASE_URL } from "../../client";
 import { useClient } from "../../client";
 
 const CreatePin = ({ classes }) => {
@@ -44,20 +43,11 @@ const handleSubmit = async (e) => {
   try {
     e.preventDefault();
     setSubmitting(true);
-    
-    // **** MOVED OUT TO CUSTOM HOOK useClient ******
-      // Get user Auth Token
-    // const idToken = window.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
-    
-      // Create new GQL Client with token
-    // const client = new GraphQLClient(BASE_URL, {
-    //   headers: { authorization: idToken }
-    // });
-    // ************
-    
+
       // Gather and set variables to pass to GraphQL via a client request:
       // Coords from the pin draft data in context
     const { latitude, longitude } = state.draft; 
+    
       // Get Cloudinary url for image upload
     const url = await handleImageUpload();
 
@@ -67,8 +57,8 @@ const handleSubmit = async (e) => {
     const data = await client.request(CREATE_PIN_MUTATION, variables); // client = useClient hook
     const { createPin } = data; // Destructure createPin from data received by client request
     
-    
     console.log("Pin created: ", { createPin });
+    dispatch({ type: "CREATE_PIN", payload: createPin })
 
     handleDeleteDraft(); // Clear form and draft pin coords
   } catch(err) {
