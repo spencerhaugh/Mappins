@@ -3,6 +3,7 @@ import ReactMapGL, { NavigationControl, Marker } from 'react-map-gl';
 import { withStyles } from "@material-ui/core/styles";
 import { useClient } from "../client";
 import { GET_PINS_QUERY } from "../graphql/queries";
+import differenceInMinutes from 'date-fns/difference_in_minutes';
 import PinIcon from "./PinIcon";
 import Blog from './Blog';
 import Context from "../context";
@@ -66,6 +67,12 @@ const Map = ({ classes }) => {
     dispatch({ type: "UPDATE_DRAFT_LOCATION", payload: { longitude, latitude } }); // update draft location in state
   };
 
+  // Highlight newest pins created
+  const highlightNewPin = (pin) => {
+    const isNewPin = differenceInMinutes(Date.now(), Number(pin.createdAt)) <= 1440; // New in the past 24hrs?
+    return isNewPin ? "red" : "orange";
+  };
+
   return (
     <div className={classes.root}>
       <ReactMapGL
@@ -114,7 +121,7 @@ const Map = ({ classes }) => {
             offsetLeft={-19}
             offsetTop={-37}
           >
-            <PinIcon size={30} color={'orange'} />
+            <PinIcon size={30} color={highlightNewPin(pin)} />
           </Marker>
         ))}
 
