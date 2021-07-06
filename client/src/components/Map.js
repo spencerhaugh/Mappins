@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import ReactMapGL, { NavigationControl, Marker } from 'react-map-gl';
+import ReactMapGL, { NavigationControl, Marker, Popup } from 'react-map-gl';
 import { withStyles } from "@material-ui/core/styles";
 import { useClient } from "../client";
 import { GET_PINS_QUERY } from "../graphql/queries";
@@ -7,9 +7,9 @@ import differenceInMinutes from 'date-fns/difference_in_minutes';
 import PinIcon from "./PinIcon";
 import Blog from './Blog';
 import Context from "../context";
-// import Button from "@material-ui/core/Button";
-// import Typography from "@material-ui/core/Typography";
-// import DeleteIcon from "@material-ui/icons/DeleteTwoTone";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import DeleteIcon from "@material-ui/icons/DeleteTwoTone";
 
 const initialViewport = {
   latitude: 37.7577,
@@ -35,6 +35,8 @@ const Map = ({ classes }) => {
     getUserPosition();
   }, []);
 
+  // Set info for popup on pin click
+  const [popup, setPopup] = useState(null)
 
   // Function: Get & set user location based on device
   const getUserPosition = () => {
@@ -72,6 +74,13 @@ const Map = ({ classes }) => {
     const isNewPin = differenceInMinutes(Date.now(), Number(pin.createdAt)) <= 1440; // New in the past 24hrs?
     return isNewPin ? "red" : "orange";
   };
+
+  const handleSelectPin = (pin) => {
+    setPopup(pin);
+    dispatch({ type: "SET_PIN", payload: pin });
+  };
+
+  const isAuthUser = () => state.currentUser._id === popup.author._id;
 
   return (
     <div className={classes.root}>
@@ -121,9 +130,41 @@ const Map = ({ classes }) => {
             offsetLeft={-19}
             offsetTop={-37}
           >
-            <PinIcon size={30} color={highlightNewPin(pin)} />
+            <PinIcon 
+              size={30} 
+              color={highlightNewPin(pin)} 
+              onClick={() => handleSelectPin(pin)}
+            />
           </Marker>
         ))}
+
+        {/* Popup Dialogue */}
+        {popup && (
+          <Popup
+            anchor='top'
+            latitude={popup.latitude}
+            longitude={popup.longitude}
+            closeOnClick={false}
+            onClose={() => setPopup(null)}
+          >
+            <img 
+              className={classes.popupImage}
+              src={popup.image}
+              alt={popup.title}
+              />
+              <div className={classes.popupTab}>
+              <Typography>
+                {popup.latitude.toFixed(6)}, {popup.longitude.toFixed(6)}
+              </Typography>
+              {isAuthUser() && (
+                <Button>
+                  <DeleteIcon className={classes.deleteIcon} />
+                </Button>
+              )}
+
+              </div>
+          </Popup>
+        )}
 
       </ReactMapGL>
 
