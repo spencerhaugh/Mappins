@@ -65,6 +65,7 @@ const Map = ({ classes }) => {
     if (!state.draft) {
       dispatch({ type: "CREATE_DRAFT" }); // if no draft in state, create one
     }
+    setPopup(null);
     const [longitude, latitude] = lngLat; // pull coordinates from the lngLat info from event
     dispatch({ type: "UPDATE_DRAFT_LOCATION", payload: { longitude, latitude } }); // update draft location in state
   };
