@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import { GraphQLClient } from 'graphql-request';
 import axios from 'axios';
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -11,8 +10,11 @@ import ClearIcon from "@material-ui/icons/Clear";
 import SaveIcon from "@material-ui/icons/SaveTwoTone";
 import Context from "../../context";
 import { CREATE_PIN_MUTATION } from "../../graphql/mutations";
+import { BASE_URL } from "../../client";
+import { useClient } from "../../client";
 
 const CreatePin = ({ classes }) => {
+  const client = useClient();
   const { state, dispatch } = useContext(Context);
   // Component state
   const [title, setTitle] = useState('');
@@ -43,13 +45,15 @@ const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     
+    // **** MOVED OUT TO CUSTOM HOOK useClient ******
       // Get user Auth Token
-    const idToken = window.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
+    // const idToken = window.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token;
     
       // Create new GQL Client with token
-    const client = new GraphQLClient('http://localhost:4000/graphql', {
-      headers: { authorization: idToken }
-    });
+    // const client = new GraphQLClient(BASE_URL, {
+    //   headers: { authorization: idToken }
+    // });
+    // ************
     
       // Gather and set variables to pass to GraphQL via a client request:
       // Coords from the pin draft data in context
@@ -60,7 +64,7 @@ const handleSubmit = async (e) => {
     const variables = { title, image: url, content, latitude, longitude }
     
       // Send data to GraphQL to create data mutation (ie add item)
-    const data = await client.request(CREATE_PIN_MUTATION, variables);
+    const data = await client.request(CREATE_PIN_MUTATION, variables); // client = useClient hook
     const { createPin } = data; // Destructure createPin from data received by client request
     
     
