@@ -3,6 +3,7 @@ import ReactMapGL, { NavigationControl, Marker, Popup } from 'react-map-gl';
 import { withStyles } from "@material-ui/core/styles";
 import { useClient } from "../client";
 import { GET_PINS_QUERY } from "../graphql/queries";
+import { DELETE_PIN_MUTATION } from "../graphql/mutations";
 import differenceInMinutes from 'date-fns/difference_in_minutes';
 import PinIcon from "./PinIcon";
 import Blog from './Blog';
@@ -83,6 +84,18 @@ const Map = ({ classes }) => {
 
   const isAuthUser = () => state.currentUser._id === popup.author._id;
 
+  const handleDeletePin = async (pin) => {
+    const variables = { pinId: pin._id }
+    const { deletePin } = await client.request(DELETE_PIN_MUTATION, variables); // remove pin from DB
+    dispatch({ type: "DELETE_PIN", payload: deletePin }); // remove from state
+    setPopup(null);
+  };
+
+  // const closePopup = (pin) => {
+  //   setPopup(null);
+  //   dispatch({ type: "CLEAR_CURRENT_PIN", payload: pin }) 
+  // }
+
   return (
     <div className={classes.root}>
       <ReactMapGL
@@ -147,6 +160,7 @@ const Map = ({ classes }) => {
             longitude={popup.longitude}
             closeOnClick={false}
             onClose={() => setPopup(null)}
+            // onClose={() => closePopup(popup)}
           >
             <img 
               className={classes.popupImage}
@@ -158,7 +172,7 @@ const Map = ({ classes }) => {
                 {popup.latitude.toFixed(6)}, {popup.longitude.toFixed(6)}
               </Typography>
               {isAuthUser() && (
-                <Button>
+                <Button onClick={() => handleDeletePin(popup)}>
                   <DeleteIcon className={classes.deleteIcon} />
                 </Button>
               )}
