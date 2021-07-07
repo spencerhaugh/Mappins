@@ -76,7 +76,7 @@ const handleSubmit = async (e) => {
         color='secondary'
       >
         <LandscapeIcon className={classes.iconLarge} />
-        Pin Location
+        Create New Pin
       </Typography>
       <div>
         <TextField 

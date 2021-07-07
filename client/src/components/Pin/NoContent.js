@@ -16,6 +16,16 @@ const NoContent = ({ classes }) => (
     >
       Click on map to add a pin
     </Typography>
+    <Typography
+      noWrap
+      component='h2'
+      variant='h6'
+      align='center'
+      color='textPrimary'
+      gutterBottom
+    >
+      Click on pins to view details
+    </Typography>
   </div>
 )
 
