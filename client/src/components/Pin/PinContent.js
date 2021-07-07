@@ -25,7 +25,7 @@ const PinContent = ({ classes }) => {
         {title}
       </Typography>
       <Typography 
-        classes={classes.text}
+        className={classes.text}
         component='h3'
         variant='h6'
         color='inherit'
