@@ -6,7 +6,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import SendIcon from "@material-ui/icons/Send";
 import Divider from "@material-ui/core/Divider";
 
-import { CREATE_COMMENT_MUTATION, CREATE_PIN_MUTATION } from "../../graphql/mutations";
+import { CREATE_COMMENT_MUTATION } from "../../graphql/mutations";
 import { useClient } from "../../client";
 import Context from "../../context";
 
