@@ -37,6 +37,7 @@ const Login = ({ classes }) => {
 
   const onFailure = (err) => {
     console.error("Error logging in: ", err)
+    dispatch({ type: "IS_LOGGED_IN", payload: false }); // if error logging in (expired token), dispatch false to prevent loop of sign in attempts
   }
 
   return (
