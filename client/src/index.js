@@ -11,6 +11,7 @@ import reducer from "./reducer";
 import "mapbox-gl/dist/mapbox-gl.css";
 import * as serviceWorker from "./serviceWorker";
 
+// Apollo provider for Subscribe websocket live updating
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { WebSocketLink } from 'apollo-link-ws';
@@ -23,7 +24,7 @@ const wsLink = new WebSocketLink({
     reconnect: true
   }
 });
-
+// Apollo Client
 const client = new ApolloClient({
   link: wsLink,
   cache: new InMemoryCache()
