@@ -91,10 +91,10 @@ const Map = ({ classes }) => {
     setPopup(null);
   };
 
-  // const closePopup = (pin) => {
-  //   setPopup(null);
-  //   dispatch({ type: "CLEAR_CURRENT_PIN", payload: pin }) 
-  // }
+  const closePopup = () => {
+    setPopup(null);
+    dispatch({ type: "CLEAR_CURRENT_PIN", payload: null }) 
+  }
 
   return (
     <div className={classes.root}>
@@ -159,8 +159,8 @@ const Map = ({ classes }) => {
             latitude={popup.latitude}
             longitude={popup.longitude}
             closeOnClick={false}
-            onClose={() => setPopup(null)}
-            // onClose={() => closePopup(popup)}
+            // onClose={() => setPopup(null)}
+            onClose={() => closePopup()}
           >
             <img 
               className={classes.popupImage}
@@ -168,12 +168,12 @@ const Map = ({ classes }) => {
               alt={popup.title}
               />
               <div className={classes.popupTab}>
-              <Typography>
+              <Typography gutterBottom>
                 {popup.latitude.toFixed(6)}, {popup.longitude.toFixed(6)}
               </Typography>
               {isAuthUser() && (
                 <Button onClick={() => handleDeletePin(popup)}>
-                  <DeleteIcon className={classes.deleteIcon} />
+                  <DeleteIcon className={classes.deleteIcon} /> Delete Pin
                 </Button>
               )}
 
