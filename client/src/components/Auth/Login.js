@@ -3,6 +3,7 @@ import { GraphQLClient } from 'graphql-request';
 import { GoogleLogin } from 'react-google-login';
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
 import Context from "../../context";
@@ -11,6 +12,8 @@ import { BASE_URL } from "../../client";
 
 
 const Login = ({ classes }) => {
+
+  const mobileSize = useMediaQuery('(max-width:650px)');
 
   const { dispatch } = useContext(Context)
 
@@ -42,6 +45,7 @@ const Login = ({ classes }) => {
 
   return (
     <div className={classes.root}>
+      <img src={ mobileSize ? 'logo-small.png' : '/logo.png'} alt="Mappins Logo" />
       <Typography
         component='h1'
         variant='h3'
