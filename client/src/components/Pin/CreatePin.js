@@ -57,8 +57,7 @@ const handleSubmit = async (e) => {
     const data = await client.request(CREATE_PIN_MUTATION, variables); // client = useClient hook
     const { createPin } = data; // Destructure createPin from data received by client request
     
-    console.log("Pin created: ", { createPin });
-    dispatch({ type: "CREATE_PIN", payload: createPin })
+      // Dispatch no longer needed as Subscription is handling in Map component
 
     handleDeleteDraft(); // Clear form and draft pin coords
   } catch(err) {
