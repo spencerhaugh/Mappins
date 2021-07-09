@@ -30,7 +30,7 @@ const Header = ({ classes }) => {
               color='inherit'
               noWrap
             >
-              Geopins
+              Mappins
             </Typography>
           </div>
 
