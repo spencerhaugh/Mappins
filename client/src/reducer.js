@@ -14,7 +14,9 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 currentUser: null,
-                isAuth: false
+                isAuth: false,
+                draft: null,
+                currentPin: null
             }
         case "CREATE_DRAFT":
             return {
