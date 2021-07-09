@@ -58,8 +58,7 @@ const handleSubmit = async (e) => {
     const variables = { title, image: url, content, latitude, longitude }
     
       // Send data to GraphQL to create data mutation (ie add item)
-    const data = await client.request(CREATE_PIN_MUTATION, variables); // client = useClient hook
-    const { createPin } = data; // Destructure createPin from data received by client request
+    await client.request(CREATE_PIN_MUTATION, variables); // client = useClient hook
     
       // Dispatch no longer needed as Subscription is handling in Map component
 
