@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import axios from 'axios';
 import { withStyles } from "@material-ui/core/styles";
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -13,6 +14,9 @@ import { CREATE_PIN_MUTATION } from "../../graphql/mutations";
 import { useClient } from "../../client";
 
 const CreatePin = ({ classes }) => {
+
+  const mobileSize = useMediaQuery('(max-width: 650px)');
+
   const client = useClient();
   const { state, dispatch } = useContext(Context);
   // Component state
@@ -108,7 +112,7 @@ const handleSubmit = async (e) => {
           label='Pin Description'
           placeholder="Let us know what's interesting here!"
           multiline
-          rows='6'
+          rows={mobileSize ? '3' : '6'}
           margin='normal'
           fullWidth
           variant='outlined'
