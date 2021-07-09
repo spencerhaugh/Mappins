@@ -45,6 +45,14 @@ const Map = ({ classes }) => {
   // Set info for popup on pin click
   const [popup, setPopup] = useState(null)
 
+  // Removes popup if pin is deleted by author while popup is open (Edge case)
+  useEffect(() => {
+    const pinExists = popup && state.pins.findIndex(pin => pin._id === popup._id) > -1; // true if popup and id of popup is found in pins
+    if (!pinExists) {
+      setPopup(null)
+    }
+  }, [state.pins.length]) 
+
   // Function: Get & set user location based on device
   const getUserPosition = () => {
     // get user position from window
