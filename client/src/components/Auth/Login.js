@@ -31,7 +31,8 @@ const Login = ({ classes }) => {
 
       // Update state with current user, and add isAuth: true
       dispatch({ type: "LOGIN_USER", payload: data.me });
-      dispatch({ type: "IS_LOGGED_IN", payload: googleUser.isSignedIn() }); // could pass in 'true', but googleUser method isSignedIn is more reliable
+      dispatch({ type: "IS_LOGGED_IN", payload: true }); // could pass in 'true',
+      // dispatch({ type: "IS_LOGGED_IN", payload: googleUser.isSignedIn() }); // could pass in 'true', but googleUser method isSignedIn is more reliable
     } catch (err) {
       onFailure(err)
     }
