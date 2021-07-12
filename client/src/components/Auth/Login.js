@@ -53,7 +53,7 @@ const Login = ({ classes }) => {
         noWrap
         style={{ color: "rgb(66,133,244)" }}
       >
-        Welcome
+        Welcome to Mappins
       </Typography>
       <GoogleLogin 
         clientId='774529361772-auucjid5grqlj7bhkl54jdmrgbriapj2.apps.googleusercontent.com'
