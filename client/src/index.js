@@ -19,9 +19,10 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 
 // Websocket Link
 const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:4000/graphql',
+  // testing/local uri
+  // uri: 'ws://localhost:4000/graphql',
   // Deployment uri
-  // uri: 'wss://<HEROKU DEPLOYMENT PATH URL>/graphql',
+  uri: 'wss://mappins-app.herokuapp.com//graphql',
   options: {
     reconnect: true
   }
