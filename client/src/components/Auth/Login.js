@@ -48,7 +48,7 @@ const Login = ({ classes }) => {
       <img src={ mobileSize ? 'logo-small.png' : '/logo.png'} alt="Mappins Logo" />
       <Typography
         component='h1'
-        variant='h3'
+        variant='h4'
         gutterBottom
         noWrap
         style={{ color: "rgb(66,133,244)" }}
@@ -60,6 +60,7 @@ const Login = ({ classes }) => {
         onSuccess={onSuccess}
         onFailure={onFailure}
         isSignedIn={true} // keeps user logged in
+        cookiePolicy={'single_host_origin'}
         theme='dark'
         buttonText='Login with Google'
       />
@@ -70,6 +71,7 @@ const Login = ({ classes }) => {
 const styles = {
   root: {
     height: "100vh",
+    width: "90vw",
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
