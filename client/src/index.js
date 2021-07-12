@@ -22,7 +22,7 @@ const wsLink = new WebSocketLink({
   // testing/local uri
   // uri: 'ws://localhost:4000/graphql',
   // Deployment uri
-  uri: 'wss://mappins-app.herokuapp.com//graphql',
+  uri: 'wss://mappins-app.herokuapp.com/graphql',
   options: {
     reconnect: true
   }
