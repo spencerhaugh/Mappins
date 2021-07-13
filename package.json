@@ -11,11 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "apollo-server": "^2.3.1",
-    "dotenv": "^6.2.0",
-    "google-auth-library": "^3.0.1",
-    "graphql": "^14.1.1",
-    "mongoose": "^5.4.6"
+    "apollo-server": "^3.0.0",
+    "dotenv": "^10.0.0",
+    "google-auth-library": "^7.3.0",
+    "graphql": "^15.5.1",
+    "mongoose": "^5.13.2"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"
