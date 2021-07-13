@@ -12,7 +12,6 @@ import Signout from "./Auth/Signout";
 
 const Header = ({ classes }) => {
   const mobileSize = useMediaQuery('(max-width: 650px)');
-  console.log(mobileSize)
   const { state } = useContext(Context);
   const { currentUser } = state;
 
@@ -70,7 +69,7 @@ const styles = theme => ({
     alignItems: "center"
   },
   icon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
     color: "lightgreen",
     fontSize: 45
   },
@@ -80,7 +79,7 @@ const styles = theme => ({
   picture: {
     height: "50px",
     borderRadius: "90%",
-    marginRight: theme.spacing.unit * 2
+    marginRight: theme.spacing(2)
   }
 });
 

@@ -19,15 +19,16 @@ const Login = ({ classes }) => {
 
   const onSuccess = async (googleUser) => {
     try {
-      const idToken = await googleUser.getAuthResponse().id_token
+      const idToken = googleUser.getAuthResponse().id_token
       console.log({idToken});
       // Send idToken to backend
       const client = new GraphQLClient(BASE_URL, {
         headers: { authorization: idToken }
       });
+      console.log("Sending to auth headers GraphQL...")
       // Receive data from DB with user data
       const data = await client.request(ME_QUERY); // ME_QUERY imported from gql queries file
-      // console.log({data});
+      console.log("ME QUERY: ", {data});
 
       // Update state with current user, and add isAuth: true
       dispatch({ type: "LOGIN_USER", payload: data.me });
@@ -46,7 +47,7 @@ const Login = ({ classes }) => {
 
   return (
     <div className={classes.root}>
-      <img src={ mobileSize ? 'logo192.png' : '/logo512.png'} alt="Mappins Logo" />
+      <img src={ mobileSize ? '/logo192.png' : '/logo512.png'} alt="Mappins Logo" />
       <Typography
         component='h1'
         variant='h4'
