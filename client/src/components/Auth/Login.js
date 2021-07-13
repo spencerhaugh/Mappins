@@ -19,7 +19,7 @@ const Login = ({ classes }) => {
 
   const onSuccess = async (googleUser) => {
     try {
-      const idToken = googleUser.getAuthResponse().id_token
+      const idToken = await googleUser.getAuthResponse().id_token
       console.log({idToken});
       // Send idToken to backend
       const client = new GraphQLClient(BASE_URL, {
