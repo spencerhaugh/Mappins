@@ -36,35 +36,6 @@ const Map = ({ classes }) => {
   
   const [viewport, setViewport] = useState(initialViewport);
   const [userPosition, setUserPostion] = useState(null);
-  
-  // on mount run get user position
-  useEffect(() => {
-    getUserPosition();
-  }, []);
-
-  // Set info for popup on pin click
-  const [popup, setPopup] = useState(null)
-
-  // Removes popup if pin is deleted by author while popup is open (Edge case)
-  useEffect(() => {
-    const pinExists = popup && state.pins.findIndex(pin => pin._id === popup._id) > -1; // true if popup and id of popup is found in pins
-    if (!pinExists) {
-      setPopup(null)
-    }
-  }, [state.pins.length]) 
-
-  // Function: Get & set user location based on device
-  const getUserPosition = () => {
-    // get user position from window
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(position => {
-        const { latitude, longitude } = position.coords;
-        // set viewport pos and user pos with latitude and longitude from navigator coords
-        setViewport({...viewport, latitude, longitude});
-        setUserPostion({ latitude, longitude });
-      });
-    }
-  };
 
   // Function: Get any stored pins
   const getPins = async () => {
@@ -107,7 +78,36 @@ const Map = ({ classes }) => {
   const closePopup = () => {
     setPopup(null);
     dispatch({ type: "CLEAR_CURRENT_PIN", payload: null }) 
-  }
+  };
+
+  // on mount run get user position
+  useEffect(() => {
+    getUserPosition();
+  }, []);
+
+  // Set info for popup on pin click
+  const [popup, setPopup] = useState(null)
+
+  // Removes popup if pin is deleted by author while popup is open (Edge case)
+  useEffect(() => {
+    const pinExists = popup && state.pins.findIndex(pin => pin._id === popup._id) > -1; // true if popup and id of popup is found in pins
+    if (!pinExists) {
+      setPopup(null)
+    }
+  }, [state.pins.length]) 
+
+  // Function: Get & set user location based on device
+  const getUserPosition = () => {
+    // get user position from window
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude } = position.coords;
+        // set viewport pos and user pos with latitude and longitude from navigator coords
+        setViewport({...viewport, latitude, longitude});
+        setUserPostion({ latitude, longitude });
+      });
+    }
+  };
 
   return (
     <div className={mobileSize ? classes.rootMobile : classes.root}>
