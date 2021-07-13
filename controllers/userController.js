@@ -30,7 +30,10 @@ const verifyAuthToken = async (token) => {
 }
 
 // Check for googleUser in DB
-const checkIfUserExists = async (email) => await User.findOne({ email }).exec();
+const checkIfUserExists = async (email) => {
+    const result = await User.findOne({ email }).exec()
+    return result;
+};
 
 // Create new user in DB
 const createNewUser = (googleUser) => {
