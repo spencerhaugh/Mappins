@@ -3,7 +3,7 @@ import ReactMapGL, { NavigationControl, Marker, Popup } from 'react-map-gl';
 import { withStyles } from "@material-ui/core/styles";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useClient } from "../client";
-import differenceInMinutes from 'date-fns/difference_in_minutes';
+import { differenceInMinutes } from 'date-fns';
 import PinIcon from "./PinIcon";
 import Blog from './Blog';
 import Context from "../context";
