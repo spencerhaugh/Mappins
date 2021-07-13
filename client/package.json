@@ -1,17 +1,13 @@
 {
-  "name": "newclient",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.12.1",
+    "@material-ui/icons": "^4.11.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.2",
-    "@material-ui/core": "^4.12.1",
-    "@material-ui/icons": "^4.11.2",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link-ws": "^1.0.20",
@@ -21,11 +17,15 @@
     "graphql-request": "^3.4.0",
     "graphql-tag": "^2.12.5",
     "mapbox-gl": "^2.3.1",
+    "react": "^17.0.2",
     "react-apollo": "^3.1.5",
+    "react-dom": "^17.0.2",
     "react-google-login": "^5.2.2",
     "react-map-gl": "^6.1.16",
     "react-router-dom": "^5.2.0",
-    "subscriptions-transport-ws": "^0.9.19"
+    "react-scripts": "4.0.3",
+    "subscriptions-transport-ws": "^0.9.19",
+    "web-vitals": "^1.1.2"
   },
   "scripts": {
     "start": "NODE_ENV=production react-scripts start",

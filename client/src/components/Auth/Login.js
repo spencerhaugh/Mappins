@@ -46,7 +46,7 @@ const Login = ({ classes }) => {
 
   return (
     <div className={classes.root}>
-      <img src={ mobileSize ? 'logo-small.png' : '/logo.png'} alt="Mappins Logo" />
+      <img src={ mobileSize ? 'logo192.png' : '/logo512.png'} alt="Mappins Logo" />
       <Typography
         component='h1'
         variant='h4'
