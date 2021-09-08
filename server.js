@@ -42,8 +42,7 @@ const server = new ApolloServer({
 const app = express();
 
 const corsOptions = {
-    // origin: process.env.FRONTEND_URL || '*',
-    origin: '*',
+    origin: process.env.FRONTEND_URL || 'https://loving-heyrovsky-956cd7.netlify.app/' || '*',
     credentials: true,
 }
 server.applyMiddleware({ app, cors: corsOptions })
