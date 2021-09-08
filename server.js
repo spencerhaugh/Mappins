@@ -1,5 +1,9 @@
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer } = require('apollo-server-express');
+const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
+
+const PORT = process.env.PORT || 4000;
 
 const { findOrCreateUser } = require('./controllers/userController');
 const typeDefs = require('./typeDefs');
@@ -11,14 +15,12 @@ mongoose.connect(process.env.MONGO_URI, {
     useUnifiedTopology: true,
     useFindAndModify: false
 })
-.then(() => console.log("DB Connected!"))
-.catch((err) => console.error(err));
+    .then(() => console.log("DB Connected!"))
+    .catch((err) => console.error(err));
 
-const server = new ApolloServer ({
+const server = new ApolloServer({
     typeDefs,
     resolvers,
-    introspection: true,
-    playground: true,
     context: async ({ req }) => {
         let authToken = null;
         let currentUser = null;
@@ -37,6 +39,14 @@ const server = new ApolloServer ({
     }
 });
 
-server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
-    console.log(`Server listening on ${url}`)
+const app = express();
+
+const corsOptions = {
+    origin: process.env.FRONTEND_URL || '*',
+    credentials: true,
+}
+server.applyMiddleware({ app, cors: corsOptions })
+
+app.listen({ port: PORT || 4000 }, () => {
+    console.log(`Server listening on ${PORT}`)
 });

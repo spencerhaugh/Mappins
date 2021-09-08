@@ -14,7 +14,7 @@ import * as serviceWorker from "./serviceWorker";
 // Apollo provider for Subscribe websocket live updating
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
-import { WebSocketLink } from "apollo-link-ws"; 
+import { WebSocketLink } from "apollo-link-ws";
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 // Websocket Link
@@ -43,7 +43,7 @@ const Root = () => {
   return (
     <Router>
       <ApolloProvider client={client}>
-        <Context.Provider value={{ state, dispatch }}> 
+        <Context.Provider value={{ state, dispatch }}>
           <Switch>
             <ProtectedRoute exact path="/" component={App} />
             <Route path="/login" component={Splash} />
