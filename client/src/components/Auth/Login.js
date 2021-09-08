@@ -27,7 +27,7 @@ const Login = ({ classes }) => {
       });
       console.log("Sending to auth headers GraphQL...")
       // Receive data from DB with user data
-      const data = await client.request(ME_QUERY); // ME_QUERY imported from gql queries file
+      const data = client.request(ME_QUERY); // ME_QUERY imported from gql queries file
       console.log("ME QUERY: ", { data });
 
       // Update state with current user, and add isAuth: true
